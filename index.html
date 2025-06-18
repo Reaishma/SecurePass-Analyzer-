@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Strength Checker</title>
+    <style>
+        /* Add some basic styling */
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .strong {
+            color: green;
+        }
+        .medium {
+            color: orange;
+        }
+        .weak {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Password Strength Checker</h1>
+    <input type="password" id="password" placeholder="Enter a password">
+    <button onclick="checkPasswordStrength()">Check Strength</button>
+    <p id="strength"></p>
+    <p id="suggestions"></p>
+
+    <script>
+        function checkPasswordStrength() {
+            const password = document.getElementById('password').value;
+            let strength = 0;
+            let errors = [];
+            let score = 0;
+            let crackTime = "";
+            let suggestions = [];
+
+            // Check password length
+            if (password.length < 8) {
+                errors.push("Password is too short. It should be at least 8 characters.");
+                suggestions.push("Increase password length to at least 8 characters.");
+            } else {
+                strength += 1;
+                score += 2;
+            }
+
+            // Check for digits
+            if (!/\d/.test(password)) {
+                errors.push("Password should have at least one digit.");
+                suggestions.push("Add at least one digit to the password.");
+            } else {
+                strength += 1;
+                score += 2;
+            }
+
+            // Check for uppercase letters
+            if (!/[A-Z]/.test(password)) {
+                errors.push("Password should have at least one uppercase letter.");
+                suggestions.push("Add at least one uppercase letter to the password.");
+            } else {
+                strength += 1;
+                score += 2;
+            }
+
+            // Check for lowercase letters
+            if (!/[a-z]/.test(password)) {
+                errors.push("Password should have at least one lowercase letter.");
+                suggestions.push("Add at least one lowercase letter to the password.");
+            } else {
+                strength += 1;
+                score += 2;
+            }
+
+            // Check for special characters
+            if (!/[^a-zA-Z0-9]/.test(password)) {
+                errors.push("Password should have at least one special character.");
+                suggestions.push("Add at least one special character to the password.");
+            } else {
+                strength += 1;
+                score += 2;
+            }
+
+            // Estimate crack time
+            if (score <= 4) {
+                crackTime = "Less than a minute";
+            } else if (score <= 6) {
+                crackTime = "Several minutes to hours";
+            } else if (score <= 8) {
+                crackTime = "Several hours to days";
+            } else {
+                crackTime = "More than a year";
+            }
+
+            let strengthLevel;
+            if (strength === 5) {
+                strengthLevel = "Strong";
+            } else if (strength >= 3) {
+                strengthLevel = "Medium";
+            } else {
+                strengthLevel = "Weak";
+            }
+
+            document.getElementById('strength').innerHTML = `Password strength: <span class="${strengthLevel.toLowerCase()}">${strengthLevel} (${score}/10)</span><br>Estimated crack time: ${crackTime}`;
+            if (suggestions.length > 0) {
+                document.getElementById('suggestions').innerHTML = "Suggestions:<ul>" + suggestions.map(suggestion => `<li>${suggestion}</li>`).join('') + "</ul>";
+            } else {
+                document.getElementById('suggestions').innerHTML = "";
+            }
+        }
+    </script>
+</body>
+</html>
