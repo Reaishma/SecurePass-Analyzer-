@@ -1,4 +1,4 @@
-Here's the updated README content:
+
 
 Password Strength Checker 🔒💻
 
@@ -59,4 +59,4 @@ Author
 License
 MIT License 📄
 
-Let me know if you'd like to add or modify anything! 😊
+
