@@ -7,7 +7,7 @@ A password strength checker tool that evaluates the security of your passwords �
 
 Initial Version
 Initially built using:
-- Python 🐍
+- Python 
 - Argon2-cffi password hasher 🔒
 - Tkinter for GUI 📊
 
