@@ -57,6 +57,6 @@ Author
 - *Reaishma N* 🙋‍♀️
 
 License
-MIT License 📄
+ GNU GENERAL PUBLIC LICENSE 📄
 
 
