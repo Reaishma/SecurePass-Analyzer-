@@ -42,6 +42,7 @@ Code Structure
 - `style.css`: The CSS file for styling the tool 🎨
 
 JavaScript Code Snippet
+```
 function checkPasswordStrength(password) {
     // Check password length
     if (password.length < 8) {
@@ -53,6 +54,7 @@ function checkPasswordStrength(password) {
     }
     return "Password is strong";
 }
+```
 Author
 - *Reaishma N* 🙋‍♀️
 
