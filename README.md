@@ -1,6 +1,6 @@
 # SecurePass Analyzer
 
-A comprehensive password strength checker built with enterprise-grade security standards, incorporating OWASP and SANS guidelines, threat intelligence, and cryptographic analysis.
+SecurePass Analyzer is a comprehensive password security analysis tool built with a modern full-stack architecture. The application provides real-time password strength analysis, security compliance checking, threat intelligence assessment, and cryptographic analysis. It features a clean, professional interface designed for security professionals and end users alike
 
 ## Features
 
@@ -29,6 +29,54 @@ A comprehensive password strength checker built with enterprise-grade security s
 - **Customizable Options**: Length, character sets, complexity
 - **Strength Validation**: Generated passwords automatically analyzed
 - **One-click Application**: Seamless integration with analyzer
+
+### Data Models
+- **Users**: Basic user authentication schema
+- **Password Analysis**: Comprehensive analysis results storage with JSON fields for complex data
+- **Shared Schema**: Zod validation schemas for type-safe data transfer
+
+### UI Components
+- **Security Dashboard**: Real-time analysis display
+- **Password Input**: Debounced analysis trigger with strength visualization
+- **Compliance Cards**: OWASP, SANS, and threat intelligence results
+- **Password Generator**: Configurable secure password generation
+- **Recommendations Engine**: Contextual security advice
+
+## Data Flow
+
+1. **Password Input**: User types password with 500ms debounce
+2. **Analysis Pipeline**: Concurrent execution of all security checks
+3. **Results Aggregation**: Combine scores and recommendations
+4. **Database Storage**: Persist analysis with hashed password
+5. **UI Updates**: Real-time dashboard updates via React Query
+
+### Analysis Components
+- Strength scoring (0-100 scale)
+- OWASP compliance (8 criteria)
+- SANS guidelines validation
+- Threat intelligence lookup
+- Cryptographic hash generation
+- Security recommendations
+
+## External Dependencies
+
+### Core Libraries
+- **@neondatabase/serverless**: PostgreSQL connection driver
+- **drizzle-orm**: Type-safe database ORM
+- **@tanstack/react-query**: Server state management
+- **@radix-ui/***: Accessible UI primitives
+- **class-variance-authority**: Type-safe CSS class variants
+- **zod**: Runtime type validation
+
+### Development Tools
+- **tsx**: TypeScript execution for development
+- **esbuild**: Production build bundling
+- **@replit/vite-plugin-***: Replit-specific development enhancements
+
+### Security Libraries
+- **bcrypt**: Password hashing (planned integration)
+- **crypto**: Node.js cryptographic utilities
+- **date-fns**: Date manipulation for analysis timestamps
 
 ## Architecture
 
@@ -107,6 +155,10 @@ Body: { "password": "string" }
 ```
 GET /api/password/history
 ```
+
+## Live Demo 
+
+[View Demo](.   ).  
 
 ## Security Standards
 
@@ -211,6 +263,22 @@ The application follows [SANS Institute](https://www.sans.org/) cybersecurity be
 - Secure random generation
 - Protection against timing attacks
 - Input validation and sanitization
+## Deployment Strategy
+
+### Development
+- **Local Development**: Vite dev server with Express middleware
+- **Hot Reloading**: Full-stack hot module replacement
+- **Database**: Neon serverless PostgreSQL with connection pooling
+
+### Production Build
+- **Frontend**: Vite build to dist/public with asset optimization
+- **Backend**: ESBuild bundle to dist/index.js with external dependencies
+- **Database**: Drizzle migrations with schema push capability
+
+### Environment Configuration
+- **DATABASE_URL**: Required PostgreSQL connection string
+- **NODE_ENV**: Development/production environment flag
+
 
 ## Browser Support
 
@@ -229,7 +297,7 @@ The application follows [SANS Institute](https://www.sans.org/) cybersecurity be
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the 
 
 ## Acknowledgments
 
