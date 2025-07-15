@@ -298,6 +298,7 @@ The application follows [SANS Institute](https://www.sans.org/) cybersecurity be
 ## License
 
 This project is licensed under the 
+GNU GENERAL PUBLIC LICENSE Version 3 
 
 ## Acknowledgments
 
