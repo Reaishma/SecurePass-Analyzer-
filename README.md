@@ -158,7 +158,7 @@ GET /api/password/history
 
 ## Live Demo 
 
-[View Demo](.   ).  
+[View Demo](https://reaishma.github.io/SecurePass-Analyzer-/) 
 
 ## Security Standards
 
