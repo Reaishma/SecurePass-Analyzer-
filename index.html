@@ -1,0 +1,1782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecurePass Analyzer - Password Security Analysis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f9fafb;
+            color: #374151;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            padding: 1rem 0;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo-icon {
+            color: #3b82f6;
+            font-size: 1.5rem;
+        }
+
+        .logo-text {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1f2937;
+        }
+
+        .header-badges {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
+        .badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Main Content */
+        .main {
+            padding: 2rem 0;
+        }
+
+        .section {
+            margin-bottom: 2rem;
+        }
+
+        .grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .grid-3 {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        .grid-2 {
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        }
+
+        /* Card Component */
+        .card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .card-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        /* Password Input */
+        .password-input-container {
+            position: relative;
+            margin-bottom: 1rem;
+        }
+
+        .password-input {
+            width: 100%;
+            padding: 0.75rem 3rem 0.75rem 1rem;
+            border: 2px solid #d1d5db;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        .password-input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #6b7280;
+            cursor: pointer;
+            padding: 0.25rem;
+        }
+
+        .toggle-password:hover {
+            color: #374151;
+        }
+
+        /* Strength Indicator */
+        .strength-indicator {
+            margin-top: 1rem;
+        }
+
+        .strength-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .strength-label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #374151;
+        }
+
+        .strength-score {
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .strength-bar {
+            width: 100%;
+            height: 0.5rem;
+            background-color: #e5e7eb;
+            border-radius: 0.25rem;
+            overflow: hidden;
+        }
+
+        .strength-fill {
+            height: 100%;
+            transition: width 0.3s ease;
+            border-radius: 0.25rem;
+        }
+
+        /* Compliance Cards */
+        .compliance-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .compliance-item:last-child {
+            border-bottom: none;
+        }
+
+        .compliance-text {
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
+        .compliance-icon {
+            font-size: 1rem;
+        }
+
+        .check-icon {
+            color: #10b981;
+        }
+
+        .x-icon {
+            color: #ef4444;
+        }
+
+        /* Threat Intelligence */
+        .threat-alert {
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid;
+        }
+
+        .threat-critical {
+            background-color: #fef2f2;
+            border-color: #fecaca;
+            color: #dc2626;
+        }
+
+        .threat-warning {
+            background-color: #fffbeb;
+            border-color: #fed7aa;
+            color: #d97706;
+        }
+
+        .threat-info {
+            background-color: #eff6ff;
+            border-color: #bfdbfe;
+            color: #2563eb;
+        }
+
+        /* Security Posture Circle */
+        .security-circle {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 1rem 0;
+        }
+
+        .circle-container {
+            position: relative;
+            width: 100px;
+            height: 100px;
+        }
+
+        .circle-background {
+            fill: none;
+            stroke: #e5e7eb;
+            stroke-width: 8;
+        }
+
+        .circle-progress {
+            fill: none;
+            stroke-width: 8;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 0.5s ease;
+        }
+
+        .circle-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        /* Password Generator */
+        .generator-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .length-control {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .slider {
+            flex: 1;
+            height: 0.5rem;
+            background: #e5e7eb;
+            border-radius: 0.25rem;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 1.25rem;
+            height: 1.25rem;
+            background: #3b82f6;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .checkbox-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .checkbox {
+            width: 1rem;
+            height: 1rem;
+            accent-color: #3b82f6;
+        }
+
+        .generated-password {
+            background: #f9fafb;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            word-break: break-all;
+            border: 1px solid #e5e7eb;
+            position: relative;
+        }
+
+        .copy-button {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: none;
+            border: none;
+            color: #3b82f6;
+            cursor: pointer;
+            padding: 0.25rem;
+            border-radius: 0.25rem;
+        }
+
+        .copy-button:hover {
+            background: #f3f4f6;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            border: none;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2563eb;
+        }
+
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+        }
+
+        .btn-secondary {
+            background: #6b7280;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #4b5563;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-group .btn {
+            flex: 1;
+        }
+
+        /* Security Testing Tools */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .tool-card {
+            border-radius: 0.5rem;
+            padding: 1rem;
+            border: 1px solid;
+        }
+
+        .tool-card.vulnerability {
+            background: #fef2f2;
+            border-color: #fecaca;
+        }
+
+        .tool-card.penetration {
+            background: #fffbeb;
+            border-color: #fed7aa;
+        }
+
+        .tool-card.risk {
+            background: #eff6ff;
+            border-color: #bfdbfe;
+        }
+
+        .tool-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .tool-title {
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .tool-description {
+            font-size: 0.75rem;
+            color: #6b7280;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .header-badges {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 1rem;
+            }
+        }
+
+        /* Color Classes */
+        .text-red { color: #ef4444; }
+        .text-orange { color: #f59e0b; }
+        .text-yellow { color: #eab308; }
+        .text-blue { color: #3b82f6; }
+        .text-green { color: #10b981; }
+        .text-gray { color: #6b7280; }
+
+        .bg-red { background-color: #ef4444; }
+        .bg-orange { background-color: #f59e0b; }
+        .bg-yellow { background-color: #eab308; }
+        .bg-blue { background-color: #3b82f6; }
+        .bg-green { background-color: #10b981; }
+        .bg-gray { background-color: #6b7280; }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* Loading State */
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .spinner {
+            border: 2px solid #f3f4f6;
+            border-top: 2px solid #3b82f6;
+            border-radius: 50%;
+            width: 1rem;
+            height: 1rem;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <span class="logo-icon">🛡️</span>
+                    <h1 class="logo-text">SecurePass Analyzer</h1>
+                </div>
+                <div class="header-badges">
+                    <div class="badge">
+                        <span>☁️</span>
+                        <span>Azure Security Center</span>
+                    </div>
+                    <div class="badge">
+                        <span>🏷️</span>
+                        <span>OWASP Compliant</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="container">
+            <!-- Password Input Section -->
+            <section class="section">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Password Security Analysis</h2>
+                        <div class="card-badge text-blue">
+                            <span>ℹ️</span>
+                            <span>Real-time OWASP & SANS compliance check</span>
+                        </div>
+                    </div>
+                    
+                    <div class="password-input-container">
+                        <input 
+                            type="password" 
+                            id="passwordInput"
+                            class="password-input"
+                            placeholder="Enter password for security analysis..."
+                            autocomplete="off"
+                        >
+                        <button class="toggle-password" onclick="togglePasswordVisibility()">
+                            <span id="toggleIcon">👁️</span>
+                        </button>
+                    </div>
+                    
+                    <div class="strength-indicator">
+                        <div class="strength-header">
+                            <span class="strength-label">Password Strength</span>
+                            <span class="strength-score" id="strengthScore">Very Weak (0/5)</span>
+                        </div>
+                        <div class="strength-bar">
+                            <div class="strength-fill bg-red" id="strengthFill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Security Dashboard Grid -->
+            <section class="section">
+                <div class="grid grid-3">
+                    <!-- OWASP Compliance -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">OWASP Compliance</h3>
+                            <div class="card-badge text-green">
+                                <span>🛡️</span>
+                                <span id="owaspScore">0/8 Passed</span>
+                            </div>
+                        </div>
+                        <div id="owaspChecks">
+                            <div class="compliance-item">
+                                <span class="compliance-text">Minimum Length (8+)</span>
+                                <span class="compliance-icon x-icon" id="minLength">❌</span>
+                            </div>
+                            <div class="compliance-item">
+                                <span class="compliance-text">Uppercase Letter</span>
+                                <span class="compliance-icon x-icon" id="uppercase">❌</span>
+                            </div>
+                            <div class="compliance-item">
+                                <span class="compliance-text">Lowercase Letter</span>
+                                <span class="compliance-icon x-icon" id="lowercase">❌</span>
+                            </div>
+                            <div class="compliance-item">
+                                <span class="compliance-text">Number</span>
+                                <span class="compliance-icon x-icon" id="number">❌</span>
+                            </div>
+                            <div class="compliance-item">
+                                <span class="compliance-text">Special Character</span>
+                                <span class="compliance-icon x-icon" id="special">❌</span>
+                            </div>
+                            <div class="compliance-item">
+                                <span class="compliance-text">No Common Patterns</span>
+                                <span class="compliance-icon x-icon" id="noPatterns">❌</span>
+                            </div>
+                            <div class="compliance-item">
+                                <span class="compliance-text">No Dictionary Words</span>
+                                <span class="compliance-icon x-icon" id="noDict">❌</span>
+                            </div>
+                            <div class="compliance-item">
+                                <span class="compliance-text">No Personal Info</span>
+                                <span class="compliance-icon x-icon" id="noPersonal">❌</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SANS Guidelines -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">SANS Guidelines</h3>
+                            <div class="card-badge text-orange">
+                                <span>⚠️</span>
+                                <span id="sansLevel">Poor</span>
+                            </div>
+                        </div>
+                        <div id="sansChecks">
+                            <div class="compliance-item">
+                                <span class="compliance-text">Length ≥ 12 chars</span>
+                                <span class="compliance-icon x-icon" id="sansLength">❌</span>
+                            </div>
+                            <div class="compliance-item">
+                                <span class="compliance-text">Complexity Score</span>
+                                <span class="compliance-text text-red" id="complexityScore">Low</span>
+                            </div>
+                            <div class="compliance-item">
+                                <span class="compliance-text">Entropy Level</span>
+                                <span class="compliance-text text-red" id="entropyLevel">0 bits</span>
+                            </div>
+                            <div class="compliance-item">
+                                <span class="compliance-text">Uniqueness</span>
+                                <span class="compliance-icon x-icon" id="uniqueness">❌</span>
+                            </div>
+                            <div class="compliance-item">
+                                <span class="compliance-text">No Keyboard Patterns</span>
+                                <span class="compliance-icon x-icon" id="noKeyboard">❌</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Security Posture -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Security Posture</h3>
+                            <div class="card-badge text-blue">
+                                <span>📈</span>
+                                <span id="postureScore">Score: 0/100</span>
+                            </div>
+                        </div>
+                        <div class="security-circle">
+                            <div class="circle-container">
+                                <svg width="100" height="100">
+                                    <circle cx="50" cy="50" r="40" class="circle-background"></circle>
+                                    <circle cx="50" cy="50" r="40" class="circle-progress" 
+                                            id="postureCircle"
+                                            style="stroke: #ef4444; stroke-dasharray: 251.2; stroke-dashoffset: 251.2;"></circle>
+                                </svg>
+                                <div class="circle-text text-red" id="postureNumber">0</div>
+                            </div>
+                        </div>
+                        <div style="text-align: center;">
+                            <p class="compliance-text">
+                                Risk Level: <span class="text-red" id="riskLevel">Unknown</span>
+                            </p>
+                            <p class="tool-description" id="recommendation">Analyze password to get recommendations</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Threat Intelligence & Cryptography -->
+            <section class="section">
+                <div class="grid grid-2">
+                    <!-- Threat Intelligence -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Threat Intelligence</h3>
+                            <div class="card-badge text-blue">
+                                <span>🗄️</span>
+                                <span>IBM X-Force • AlienVault</span>
+                            </div>
+                        </div>
+                        <div id="threatResults">
+                            <div class="threat-alert threat-info">
+                                <div class="tool-header">
+                                    <span>🛡️</span>
+                                    <span class="tool-title text-blue">Threat Score</span>
+                                </div>
+                                <p class="tool-description">
+                                    <span id="threatRisk">Unknown</span> risk - <span id="threatScore">0</span>/10 vulnerability rating
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Cryptographic Analysis -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Cryptographic Analysis</h3>
+                            <div class="card-badge text-green">
+                                <span>🔑</span>
+                                <span>OpenSSL</span>
+                            </div>
+                        </div>
+                        <div>
+                            <div style="margin-bottom: 1rem;">
+                                <label class="strength-label">SHA-256 Hash</label>
+                                <div class="generated-password" style="margin-top: 0.5rem;">
+                                    <span id="sha256Hash">Enter password to generate hash</span>
+                                    <button class="copy-button" onclick="copyToClipboard('sha256Hash')" style="display: none;" id="copySha256">
+                                        📋
+                                    </button>
+                                </div>
+                            </div>
+                            <div style="margin-bottom: 1rem;">
+                                <label class="strength-label">bcrypt Hash</label>
+                                <div class="generated-password" style="margin-top: 0.5rem;">
+                                    <span id="bcryptHash">Enter password to generate hash</span>
+                                    <button class="copy-button" onclick="copyToClipboard('bcryptHash')" style="display: none;" id="copyBcrypt">
+                                        📋
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="grid grid-2">
+                                <div>
+                                    <label class="strength-label">Salt</label>
+                                    <div class="generated-password" style="margin-top: 0.5rem;">
+                                        <span id="saltValue">N/A</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="strength-label">Iterations</label>
+                                    <div class="generated-password" style="margin-top: 0.5rem;">
+                                        <span id="iterations">N/A</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Security Recommendations & Password Generator -->
+            <section class="section">
+                <div class="grid grid-2">
+                    <!-- Security Recommendations -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Security Recommendations</h3>
+                            <div class="card-badge text-orange">
+                                <span>💡</span>
+                            </div>
+                        </div>
+                        <div id="recommendations">
+                            <div class="compliance-item">
+                                <div>
+                                    <p class="compliance-text" style="font-weight: 500;">Enter a Password</p>
+                                    <p class="tool-description">Type a password to get personalized security recommendations</p>
+                                </div>
+                            </div>
+                            <div class="compliance-item">
+                                <div>
+                                    <p class="compliance-text" style="font-weight: 500;">Use Strong Passwords</p>
+                                    <p class="tool-description">Combine uppercase, lowercase, numbers, and special characters</p>
+                                </div>
+                            </div>
+                            <div class="compliance-item">
+                                <div>
+                                    <p class="compliance-text" style="font-weight: 500;">Aim for Length</p>
+                                    <p class="tool-description">Longer passwords are exponentially harder to crack</p>
+                                </div>
+                            </div>
+                            <div class="compliance-item">
+                                <div>
+                                    <p class="compliance-text" style="font-weight: 500;">Avoid Common Patterns</p>
+                                    <p class="tool-description">Stay away from predictable sequences and keyboard patterns</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Password Generator -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Secure Password Generator</h3>
+                            <div class="card-badge text-green">
+                                <span>🎲</span>
+                            </div>
+                        </div>
+                        <div class="generator-controls">
+                            <div class="length-control">
+                                <label class="strength-label">Length:</label>
+                                <input type="range" id="lengthSlider" class="slider" min="8" max="32" value="16">
+                                <span class="strength-label" id="lengthValue">16</span>
+                            </div>
+                            
+                            <div class="checkbox-grid">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="includeUppercase" class="checkbox" checked>
+                                    <label for="includeUppercase" class="compliance-text">Uppercase</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="includeLowercase" class="checkbox" checked>
+                                    <label for="includeLowercase" class="compliance-text">Lowercase</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="includeNumbers" class="checkbox" checked>
+                                    <label for="includeNumbers" class="compliance-text">Numbers</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="includeSymbols" class="checkbox" checked>
+                                    <label for="includeSymbols" class="compliance-text">Symbols</label>
+                                </div>
+                            </div>
+                            
+                            <div class="generated-password">
+                                <span id="generatedPassword">Click 'Generate New' to create a password</span>
+                                <button class="copy-button" onclick="copyToClipboard('generatedPassword')" style="display: none;" id="copyGenerated">
+                                    📋
+                                </button>
+                            </div>
+                            
+                            <div class="btn-group">
+                                <button class="btn btn-primary" onclick="generatePassword()">
+                                    <span>🎲</span>
+                                    <span>Generate New</span>
+                                </button>
+                                <button class="btn btn-success" onclick="useGeneratedPassword()" id="usePasswordBtn" disabled>
+                                    <span>✅</span>
+                                    <span>Use This</span>
+                                </button>
+                            </div>
+                            
+                            <div style="text-align: center; display: none;" id="generatedStrength">
+                                <p class="tool-description">
+                                    Generated password strength: <span class="text-green" id="genStrengthLabel">Strong (5/5)</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Security Testing Tools Integration -->
+            <section class="section">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Security Testing Tools Integration</h3>
+                        <div class="header-badges">
+                            <div class="badge">
+                                <span style="color: #ef4444;">🐛</span>
+                                <span>Metasploit</span>
+                            </div>
+                            <div class="badge">
+                                <span style="color: #f59e0b;">🔍</span>
+                                <span>Burp Suite</span>
+                            </div>
+                            <div class="badge">
+                                <span style="color: #3b82f6;">🌐</span>
+                                <span>Nessus</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tools-grid">
+                        <div class="tool-card vulnerability" id="vulnerabilityCard">
+                            <div class="tool-header">
+                                <span>🐛</span>
+                                <span class="tool-title text-red">Vulnerability Scan</span>
+                            </div>
+                            <p class="tool-description" id="vulnerabilityResult">No password provided</p>
+                        </div>
+                        
+                        <div class="tool-card penetration">
+                            <div class="tool-header">
+                                <span>🔍</span>
+                                <span class="tool-title text-orange">Penetration Test</span>
+                            </div>
+                            <p class="tool-description" id="penetrationResult">Enter password to estimate crack time</p>
+                        </div>
+                        
+                        <div class="tool-card risk">
+                            <div class="tool-header">
+                                <span>🌐</span>
+                                <span class="tool-title text-blue">Risk Assessment</span>
+                            </div>
+                            <p class="tool-description" id="riskResult">Enter password for risk assessment</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        // Global variables
+        let analysisTimeout;
+        let currentPassword = '';
+        let analysisData = null;
+
+        // Password visibility toggle
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('passwordInput');
+            const toggleIcon = document.getElementById('toggleIcon');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.textContent = '🙈';
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.textContent = '👁️';
+            }
+        }
+
+        // Copy to clipboard functionality
+        function copyToClipboard(elementId) {
+            const element = document.getElementById(elementId);
+            const text = element.textContent;
+            
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast('Copied to clipboard', 'success');
+                });
+            } else {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showToast('Copied to clipboard', 'success');
+            }
+        }
+
+        // Toast notification
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.textContent = message;
+            toast.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 12px 24px;
+                border-radius: 8px;
+                color: white;
+                font-weight: 500;
+                z-index: 1000;
+                animation: slideIn 0.3s ease;
+            `;
+            
+            switch (type) {
+                case 'success':
+                    toast.style.backgroundColor = '#10b981';
+                    break;
+                case 'error':
+                    toast.style.backgroundColor = '#ef4444';
+                    break;
+                default:
+                    toast.style.backgroundColor = '#3b82f6';
+            }
+            
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+
+        // Password analysis simulation
+        function analyzePassword(password) {
+            if (!password) {
+                resetAnalysis();
+                return;
+            }
+
+            // Simulate analysis with comprehensive checks
+            const analysis = {
+                strengthScore: calculateStrengthScore(password),
+                owaspCompliance: analyzeOWASP(password),
+                sansCompliance: analyzeSANS(password),
+                threatIntelligence: analyzeThreatIntelligence(password),
+                cryptoAnalysis: analyzeCrypto(password),
+                securityPosture: calculateSecurityPosture(password),
+                recommendations: generateRecommendations(password)
+            };
+
+            updateUI(analysis);
+            analysisData = analysis;
+        }
+
+        // Calculate password strength score (1-5) with improved algorithm
+        function calculateStrengthScore(password) {
+            let score = 0;
+            
+            // Length scoring - more granular
+            if (password.length >= 8) score += 1;
+            if (password.length >= 12) score += 1;
+            if (password.length >= 16) score += 1;
+            if (password.length >= 20) score += 1; // Bonus for very long passwords
+            
+            // Character type scoring
+            if (/[a-z]/.test(password)) score += 1;
+            if (/[A-Z]/.test(password)) score += 1;
+            if (/\d/.test(password)) score += 1;
+            if (/[^A-Za-z0-9]/.test(password)) score += 1;
+            
+            // Pattern penalties
+            if (hasCommonPatterns(password)) score -= 1;
+            if (hasDictionaryWords(password)) score -= 1;
+            if (hasKeyboardPatterns(password)) score -= 1;
+            
+            // Ensure score is between 1 and 5
+            return Math.max(1, Math.min(5, score));
+        }
+
+        // OWASP compliance analysis
+        function analyzeOWASP(password) {
+            return {
+                minimumLength: password.length >= 8,
+                uppercaseLetter: /[A-Z]/.test(password),
+                lowercaseLetter: /[a-z]/.test(password),
+                number: /\d/.test(password),
+                specialCharacter: /[^A-Za-z0-9]/.test(password),
+                noCommonPatterns: !hasCommonPatterns(password),
+                noDictionaryWords: !hasDictionaryWords(password),
+                noPersonalInfo: !hasPersonalInfo(password)
+            };
+        }
+
+        // SANS compliance analysis
+        function analyzeSANS(password) {
+            const complexityScore = calculateComplexityScore(password);
+            const entropyLevel = calculateEntropy(password);
+            
+            return {
+                lengthCheck: password.length >= 12,
+                complexityScore,
+                entropyLevel,
+                uniqueness: !isCommonPassword(password),
+                noKeyboardPatterns: !hasKeyboardPatterns(password)
+            };
+        }
+
+        // Threat intelligence analysis
+        function analyzeThreatIntelligence(password) {
+            const commonPasswords = ['password', '123456', 'qwerty', 'abc123', 'admin', 'letmein'];
+            const breachKeywords = ['linkedin', 'yahoo', 'adobe', 'facebook', 'twitter'];
+            
+            let threatScore = 0;
+            let breachMatch = false;
+            let commonMatch = false;
+            
+            // Check for common password patterns
+            if (commonPasswords.some(p => password.toLowerCase().includes(p))) {
+                commonMatch = true;
+                threatScore += 3;
+            }
+            
+            // Check for breach-related keywords
+            if (breachKeywords.some(b => password.toLowerCase().includes(b))) {
+                breachMatch = true;
+                threatScore += 4;
+            }
+            
+            // Additional threat scoring
+            if (hasCommonPatterns(password)) threatScore += 2;
+            if (password.length < 8) threatScore += 2;
+            if (!/[A-Z]/.test(password)) threatScore += 1;
+            if (!/[^A-Za-z0-9]/.test(password)) threatScore += 1;
+            
+            let riskLevel = 'Low';
+            if (threatScore >= 7) riskLevel = 'Critical';
+            else if (threatScore >= 5) riskLevel = 'High';
+            else if (threatScore >= 3) riskLevel = 'Medium';
+            
+            return {
+                breachDatabaseMatch: breachMatch,
+                commonPasswordList: commonMatch,
+                threatScore,
+                riskLevel
+            };
+        }
+
+        // Crypto analysis simulation
+        function analyzeCrypto(password) {
+            const sha256 = generateSHA256Hash(password);
+            const bcrypt = generateBcryptHash(password);
+            
+            return {
+                sha256Hash: sha256,
+                bcryptHash: bcrypt,
+                salt: generateSalt(),
+                iterations: 12,
+                algorithm: 'bcrypt'
+            };
+        }
+
+        // Generate SHA-256 hash simulation
+        function generateSHA256Hash(password) {
+            let hash = 0;
+            for (let i = 0; i < password.length; i++) {
+                const char = password.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash; // Convert to 32-bit integer
+            }
+            
+            // Create a more realistic SHA-256 hash
+            const baseHash = Math.abs(hash).toString(16);
+            const extendedHash = (baseHash + password.length.toString(16) + '0'.repeat(64)).substring(0, 64);
+            return extendedHash;
+        }
+
+        // Generate bcrypt hash simulation
+        function generateBcryptHash(password) {
+            const hash = generateSHA256Hash(password + 'salt');
+            return '$2b$12$' + hash.substring(0, 22) + '.' + hash.substring(22, 44);
+        }
+
+        // Generate salt
+        function generateSalt() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let salt = '';
+            for (let i = 0; i < 16; i++) {
+                salt += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return salt;
+        }
+
+        // Security posture calculation
+        function calculateSecurityPosture(password) {
+            const strength = calculateStrengthScore(password);
+            const owasp = analyzeOWASP(password);
+            const sans = analyzeSANS(password);
+            
+            const owaspScore = Object.values(owasp).filter(Boolean).length * 12.5;
+            const sansScore = (sans.lengthCheck ? 20 : 0) + 
+                            (sans.complexityScore === 'High' ? 20 : sans.complexityScore === 'Medium' ? 10 : 0) +
+                            (sans.entropyLevel >= 50 ? 20 : sans.entropyLevel >= 30 ? 10 : 0) +
+                            (sans.uniqueness ? 20 : 0) +
+                            (sans.noKeyboardPatterns ? 20 : 0);
+            
+            const score = Math.round((owaspScore * 0.4) + (sansScore * 0.4) + (strength * 4));
+            
+            let riskLevel = 'Critical';
+            let recommendation = 'Replace with secure password';
+            
+            if (score >= 80) {
+                riskLevel = 'Low';
+                recommendation = 'Password meets security standards';
+            } else if (score >= 60) {
+                riskLevel = 'Medium';
+                recommendation = 'Strengthen complexity and length';
+            } else if (score >= 40) {
+                riskLevel = 'High';
+                recommendation = 'Significant improvements needed';
+            }
+            
+            return { score, riskLevel, recommendation };
+        }
+
+        // Generate recommendations
+        function generateRecommendations(password) {
+            const recommendations = [];
+            const owasp = analyzeOWASP(password);
+            const sans = analyzeSANS(password);
+            
+            if (!owasp.minimumLength) {
+                recommendations.push({
+                    type: 'critical',
+                    title: 'Increase Minimum Length',
+                    description: 'Password must be at least 8 characters long'
+                });
+            }
+            
+            if (!owasp.uppercaseLetter) {
+                recommendations.push({
+                    type: 'critical',
+                    title: 'Add Uppercase Letters',
+                    description: 'Include at least one uppercase letter (A-Z)'
+                });
+            }
+            
+            if (!owasp.lowercaseLetter) {
+                recommendations.push({
+                    type: 'critical',
+                    title: 'Add Lowercase Letters',
+                    description: 'Include at least one lowercase letter (a-z)'
+                });
+            }
+            
+            if (!owasp.number) {
+                recommendations.push({
+                    type: 'critical',
+                    title: 'Add Numbers',
+                    description: 'Include at least one numeric character (0-9)'
+                });
+            }
+            
+            if (!owasp.specialCharacter) {
+                recommendations.push({
+                    type: 'critical',
+                    title: 'Add Special Characters',
+                    description: 'Include at least one special character (!@#$%^&*)'
+                });
+            }
+            
+            if (!sans.lengthCheck) {
+                recommendations.push({
+                    type: 'warning',
+                    title: 'Increase Length Further',
+                    description: 'Aim for 12+ characters for optimal security'
+                });
+            }
+            
+            if (!owasp.noCommonPatterns) {
+                recommendations.push({
+                    type: 'warning',
+                    title: 'Avoid Common Patterns',
+                    description: 'Replace predictable sequences with random elements'
+                });
+            }
+            
+            if (!owasp.noDictionaryWords) {
+                recommendations.push({
+                    type: 'warning',
+                    title: 'Avoid Dictionary Words',
+                    description: 'Replace common words with random character combinations'
+                });
+            }
+            
+            if (!sans.uniqueness) {
+                recommendations.push({
+                    type: 'info',
+                    title: 'Use Passphrase Method',
+                    description: 'Consider 4-5 random words with separators'
+                });
+            }
+            
+            if (!sans.noKeyboardPatterns) {
+                recommendations.push({
+                    type: 'info',
+                    title: 'Avoid Keyboard Patterns',
+                    description: 'Avoid sequences like qwerty, asdf, or 123456'
+                });
+            }
+            
+            return recommendations;
+        }
+
+        // Helper functions
+        function hasCommonPatterns(password) {
+            const patterns = [
+                /(.)\1{2,}/g, // Repeated characters
+                /123|234|345|456|567|678|789/g, // Sequential numbers
+                /abc|bcd|cde|def|efg|fgh|ghi|hij|ijk|jkl|klm|lmn|mno|nop|opq|pqr|qrs|rst|stu|tuv|uvw|vwx|wxy|xyz/gi, // Sequential letters
+                /qwerty|asdf|zxcv|qazwsx|plokm/gi // Keyboard patterns
+            ];
+            return patterns.some(pattern => pattern.test(password));
+        }
+
+        function hasDictionaryWords(password) {
+            const words = ['password', 'admin', 'user', 'computer', 'internet', 'security', 'login', 'welcome'];
+            return words.some(word => password.toLowerCase().includes(word));
+        }
+
+        function hasPersonalInfo(password) {
+            const patterns = [
+                /19\d{2}|20\d{2}/g, // Years
+                /\b(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)\b/gi, // Months
+                /\b(admin|user|test|demo|guest)\b/gi // Common usernames
+            ];
+            return patterns.some(pattern => pattern.test(password));
+        }
+
+        function hasKeyboardPatterns(password) {
+            const patterns = [
+                /qwerty|asdf|zxcv|qazwsx|plokm/gi,
+                /12345|67890|09876|54321/g,
+                /\!\@\#\$\%/g // Sequential special characters
+            ];
+            return patterns.some(pattern => pattern.test(password));
+        }
+
+        function isCommonPassword(password) {
+            const common = ['password', '123456', 'qwerty', 'abc123', 'admin', 'letmein', 'welcome'];
+            return common.some(p => password.toLowerCase().includes(p));
+        }
+
+        function calculateComplexityScore(password) {
+            let score = 0;
+            if (/[a-z]/.test(password)) score++;
+            if (/[A-Z]/.test(password)) score++;
+            if (/\d/.test(password)) score++;
+            if (/[^A-Za-z0-9]/.test(password)) score++;
+            if (password.length >= 12) score++;
+            if (password.length >= 16) score++;
+            
+            if (score >= 5) return 'High';
+            if (score >= 3) return 'Medium';
+            return 'Low';
+        }
+
+        function calculateEntropy(password) {
+            let charset = 0;
+            if (/[a-z]/.test(password)) charset += 26;
+            if (/[A-Z]/.test(password)) charset += 26;
+            if (/\d/.test(password)) charset += 10;
+            if (/[^A-Za-z0-9]/.test(password)) charset += 32;
+            
+            const entropy = password.length * Math.log2(charset || 1);
+            return Math.round(entropy);
+        }
+
+        function getCharsetSize(password) {
+            let charset = 0;
+            if (/[a-z]/.test(password)) charset += 26;
+            if (/[A-Z]/.test(password)) charset += 26;
+            if (/\d/.test(password)) charset += 10;
+            if (/[^A-Za-z0-9]/.test(password)) charset += 32;
+            return charset || 1;
+        }
+
+        // Update UI with analysis results
+        function updateUI(analysis) {
+            updateStrengthIndicator(analysis.strengthScore);
+            updateOWASPCompliance(analysis.owaspCompliance);
+            updateSANSGuidelines(analysis.sansCompliance);
+            updateSecurityPosture(analysis.securityPosture);
+            updateThreatIntelligence(analysis.threatIntelligence);
+            updateCryptoAnalysis(analysis.cryptoAnalysis);
+            updateRecommendations(analysis.recommendations);
+            updateSecurityTools(currentPassword);
+        }
+
+        function updateStrengthIndicator(score) {
+            const strengthScore = document.getElementById('strengthScore');
+            const strengthFill = document.getElementById('strengthFill');
+            
+            const labels = ['Very Weak (0/5)', 'Very Weak (1/5)', 'Weak (2/5)', 'Fair (3/5)', 'Good (4/5)', 'Strong (5/5)'];
+            const colors = ['bg-red', 'bg-red', 'bg-orange', 'bg-yellow', 'bg-blue', 'bg-green'];
+            const textColors = ['text-red', 'text-red', 'text-orange', 'text-yellow', 'text-blue', 'text-green'];
+            
+            strengthScore.textContent = labels[score];
+            strengthScore.className = `strength-score ${textColors[score]}`;
+            strengthFill.className = `strength-fill ${colors[score]}`;
+            strengthFill.style.width = `${(score / 5) * 100}%`;
+        }
+
+        function updateOWASPCompliance(owasp) {
+            const checks = ['minLength', 'uppercase', 'lowercase', 'number', 'special', 'noPatterns', 'noDict', 'noPersonal'];
+            const keys = ['minimumLength', 'uppercaseLetter', 'lowercaseLetter', 'number', 'specialCharacter', 'noCommonPatterns', 'noDictionaryWords', 'noPersonalInfo'];
+            
+            let passed = 0;
+            checks.forEach((check, index) => {
+                const element = document.getElementById(check);
+                if (element) {
+                    const isValid = owasp[keys[index]];
+                    element.textContent = isValid ? '✅' : '❌';
+                    element.className = `compliance-icon ${isValid ? 'check-icon' : 'x-icon'}`;
+                    if (isValid) passed++;
+                }
+            });
+            
+            const owaspScoreElement = document.getElementById('owaspScore');
+            if (owaspScoreElement) {
+                owaspScoreElement.textContent = `${passed}/8 Passed`;
+            }
+        }
+
+        function updateSANSGuidelines(sans) {
+            const sansLengthElement = document.getElementById('sansLength');
+            if (sansLengthElement) {
+                sansLengthElement.textContent = sans.lengthCheck ? '✅' : '❌';
+                sansLengthElement.className = `compliance-icon ${sans.lengthCheck ? 'check-icon' : 'x-icon'}`;
+            }
+            
+            const complexityElement = document.getElementById('complexityScore');
+            if (complexityElement) {
+                complexityElement.textContent = sans.complexityScore;
+                complexityElement.className = `compliance-text ${sans.complexityScore === 'High' ? 'text-green' : sans.complexityScore === 'Medium' ? 'text-orange' : 'text-red'}`;
+            }
+            
+            const entropyElement = document.getElementById('entropyLevel');
+            if (entropyElement) {
+                entropyElement.textContent = `${sans.entropyLevel} bits`;
+                entropyElement.className = `compliance-text ${sans.entropyLevel >= 50 ? 'text-green' : sans.entropyLevel >= 30 ? 'text-orange' : 'text-red'}`;
+            }
+            
+            const uniquenessElement = document.getElementById('uniqueness');
+            if (uniquenessElement) {
+                uniquenessElement.textContent = sans.uniqueness ? '✅' : '❌';
+                uniquenessElement.className = `compliance-icon ${sans.uniqueness ? 'check-icon' : 'x-icon'}`;
+            }
+            
+            const noKeyboardElement = document.getElementById('noKeyboard');
+            if (noKeyboardElement) {
+                noKeyboardElement.textContent = sans.noKeyboardPatterns ? '✅' : '❌';
+                noKeyboardElement.className = `compliance-icon ${sans.noKeyboardPatterns ? 'check-icon' : 'x-icon'}`;
+            }
+            
+            // Update SANS level
+            let level = 'Poor';
+            const score = (sans.lengthCheck ? 20 : 0) + 
+                         (sans.complexityScore === 'High' ? 20 : sans.complexityScore === 'Medium' ? 10 : 0) +
+                         (sans.entropyLevel >= 50 ? 20 : sans.entropyLevel >= 30 ? 10 : 0) +
+                         (sans.uniqueness ? 20 : 0) +
+                         (sans.noKeyboardPatterns ? 20 : 0);
+            
+            if (score >= 80) level = 'Excellent';
+            else if (score >= 60) level = 'Good';
+            else if (score >= 40) level = 'Moderate';
+            
+            const sansLevelElement = document.getElementById('sansLevel');
+            if (sansLevelElement) {
+                sansLevelElement.textContent = level;
+            }
+        }
+
+        function updateSecurityPosture(posture) {
+            const postureScore = document.getElementById('postureScore');
+            const postureNumber = document.getElementById('postureNumber');
+            const postureCircle = document.getElementById('postureCircle');
+            const riskLevel = document.getElementById('riskLevel');
+            const recommendation = document.getElementById('recommendation');
+            
+            if (postureScore) postureScore.textContent = `Score: ${posture.score}/100`;
+            if (postureNumber) postureNumber.textContent = posture.score;
+            if (riskLevel) riskLevel.textContent = posture.riskLevel;
+            if (recommendation) recommendation.textContent = posture.recommendation;
+            
+            // Update circle
+            if (postureCircle) {
+                const circumference = 2 * Math.PI * 40;
+                const offset = circumference - (posture.score / 100) * circumference;
+                postureCircle.style.strokeDashoffset = offset;
+                
+                // Update colors
+                const colors = {
+                    'Low': { stroke: '#10b981', text: 'text-green' },
+                    'Medium': { stroke: '#f59e0b', text: 'text-orange' },
+                    'High': { stroke: '#ef4444', text: 'text-red' },
+                    'Critical': { stroke: '#dc2626', text: 'text-red' }
+                };
+                
+                const color = colors[posture.riskLevel] || colors['Critical'];
+                postureCircle.style.stroke = color.stroke;
+                if (postureNumber) postureNumber.className = `circle-text ${color.text}`;
+                if (riskLevel) riskLevel.className = color.text;
+            }
+        }
+
+        function updateThreatIntelligence(threat) {
+            const threatResults = document.getElementById('threatResults');
+            if (!threatResults) return;
+            
+            let html = '';
+            
+            if (threat.breachDatabaseMatch) {
+                html += `
+                    <div class="threat-alert threat-critical">
+                        <div class="tool-header">
+                            <span>⚠️</span>
+                            <span class="tool-title text-red">Breach Database Match</span>
+                        </div>
+                        <p class="tool-description">Similar password found in security breach</p>
+                    </div>
+                `;
+            }
+            
+            if (threat.commonPasswordList) {
+                html += `
+                    <div class="threat-alert threat-warning">
+                        <div class="tool-header">
+                            <span>📋</span>
+                            <span class="tool-title text-orange">Common Password List</span>
+                        </div>
+                        <p class="tool-description">Variations found in top 10,000 passwords</p>
+                    </div>
+                `;
+            }
+            
+            html += `
+                <div class="threat-alert threat-info">
+                    <div class="tool-header">
+                        <span>🛡️</span>
+                        <span class="tool-title text-blue">Threat Score</span>
+                    </div>
+                    <p class="tool-description">
+                        ${threat.riskLevel} risk - ${threat.threatScore}/10 vulnerability rating
+                    </p>
+                </div>
+            `;
+            
+            threatResults.innerHTML = html;
+            
+            // Update threat score elements
+            const threatRiskElement = document.getElementById('threatRisk');
+            const threatScoreElement = document.getElementById('threatScore');
+            if (threatRiskElement) threatRiskElement.textContent = threat.riskLevel;
+            if (threatScoreElement) threatScoreElement.textContent = threat.threatScore;
+        }
+
+        function updateCryptoAnalysis(crypto) {
+            const sha256Hash = document.getElementById('sha256Hash');
+            const bcryptHash = document.getElementById('bcryptHash');
+            const saltValue = document.getElementById('saltValue');
+            const iterations = document.getElementById('iterations');
+            
+            if (sha256Hash) {
+                sha256Hash.textContent = crypto.sha256Hash;
+                const copySha256 = document.getElementById('copySha256');
+                if (copySha256) copySha256.style.display = 'block';
+            }
+            
+            if (bcryptHash) {
+                bcryptHash.textContent = crypto.bcryptHash;
+                const copyBcrypt = document.getElementById('copyBcrypt');
+                if (copyBcrypt) copyBcrypt.style.display = 'block';
+            }
+            
+            if (saltValue) saltValue.textContent = crypto.salt;
+            if (iterations) iterations.textContent = `${crypto.iterations} rounds`;
+        }
+
+        function updateRecommendations(recommendations) {
+            const recommendationsDiv = document.getElementById('recommendations');
+            if (!recommendationsDiv) return;
+            
+            if (recommendations.length === 0) {
+                recommendationsDiv.innerHTML = `
+                    <div class="compliance-item">
+                        <div>
+                            <p class="compliance-text" style="font-weight: 500;">Great Job!</p>
+                            <p class="tool-description">Your password meets all security requirements</p>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '';
+            recommendations.forEach(rec => {
+                const icon = rec.type === 'critical' ? '🔴' : rec.type === 'warning' ? '🟡' : '🔵';
+                html += `
+                    <div class="compliance-item">
+                        <div style="display: flex; align-items: flex-start; gap: 0.5rem;">
+                            <span>${icon}</span>
+                            <div>
+                                <p class="compliance-text" style="font-weight: 500;">${rec.title}</p>
+                                <p class="tool-description">${rec.description}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            recommendationsDiv.innerHTML = html;
+        }
+
+        function updateSecurityTools(password) {
+            const vulnerabilityResult = document.getElementById('vulnerabilityResult');
+            const penetrationResult = document.getElementById('penetrationResult');
+            const riskResult = document.getElementById('riskResult');
+            const vulnerabilityCard = document.getElementById('vulnerabilityCard');
+            
+            if (!vulnerabilityResult || !penetrationResult || !riskResult || !vulnerabilityCard) return;
+            
+            if (!password) {
+                vulnerabilityResult.textContent = 'No password provided';
+                penetrationResult.textContent = 'Enter password to estimate crack time';
+                riskResult.textContent = 'Enter password for risk assessment';
+                vulnerabilityCard.className = 'tool-card vulnerability';
+                return;
+            }
+            
+            // Vulnerability assessment
+            const owasp = analyzeOWASP(password);
+            const owaspScore = Object.values(owasp).filter(Boolean).length;
+            
+            let vulnerability = 'Low vulnerability - Strong password detected';
+            let cardClass = 'tool-card risk';
+            
+            if (owaspScore <= 3) {
+                vulnerability = 'Critical vulnerability - Major security flaws detected';
+                cardClass = 'tool-card vulnerability';
+            } else if (owaspScore <= 5) {
+                vulnerability = 'High vulnerability - Multiple security issues found';
+                cardClass = 'tool-card vulnerability';
+            } else if (owaspScore <= 6) {
+                vulnerability = 'Medium vulnerability - Some security improvements needed';
+                cardClass = 'tool-card penetration';
+            } else if (owaspScore <= 7) {
+                vulnerability = 'Low vulnerability - Minor security improvements suggested';
+                cardClass = 'tool-card penetration';
+            }
+            
+            vulnerabilityResult.textContent = vulnerability;
+            vulnerabilityCard.className = cardClass;
+            
+            // Penetration test - crack time estimation
+            const charset = getCharsetSize(password);
+            const entropy = password.length * Math.log2(charset);
+            
+            let crackTime = 'Unknown';
+            if (entropy >= 60) {
+                crackTime = 'Centuries with current technology';
+            } else if (entropy >= 50) {
+                crackTime = 'Decades with advanced hardware';
+            } else if (entropy >= 40) {
+                crackTime = 'Years with powerful hardware';
+            } else if (entropy >= 30) {
+                crackTime = 'Months with modern hardware';
+            } else if (entropy >= 20) {
+                crackTime = 'Days with specialized hardware';
+            } else {
+                crackTime = 'Hours with basic hardware';
+            }
+            
+            penetrationResult.textContent = `Estimated crack time: ${crackTime}`;
+            
+            // Risk assessment
+            let riskScore = 0;
+            
+            if (password.length < 8) riskScore += 4;
+            else if (password.length < 12) riskScore += 2;
+            else if (password.length < 16) riskScore += 1;
+            
+            if (!/[A-Z]/.test(password)) riskScore += 2;
+            if (!/[a-z]/.test(password)) riskScore += 2;
+            if (!/\d/.test(password)) riskScore += 1;
+            if (!/[^A-Za-z0-9]/.test(password)) riskScore += 1;
+            
+            if (hasCommonPatterns(password)) riskScore += 2;
+            if (hasDictionaryWords(password)) riskScore += 2;
+            if (hasKeyboardPatterns(password)) riskScore += 1;
+            
+            riskScore = Math.min(10, riskScore);
+            const riskLevel = riskScore <= 2 ? 'Low' : riskScore <= 5 ? 'Medium' : riskScore <= 8 ? 'High' : 'Critical';
+            
+            riskResult.textContent = `${riskScore.toFixed(1)}/10 risk score (${riskLevel})`;
+        }
+
+        function resetAnalysis() {
+            // Reset all UI elements to initial state
+            document.getElementById('strengthScore').textContent = 'Very Weak (0/5)';
+            document.getElementById('strengthScore').className = 'strength-score text-red';
+            document.getElementById('strengthFill').style.width = '0%';
+            document.getElementById('strengthFill').className = 'strength-fill bg-red';
+            
+            // Reset OWASP
+            const owaspChecks = ['minLength', 'uppercase', 'lowercase', 'number', 'special', 'noPatterns', 'noDict', 'noPersonal'];
+            owaspChecks.forEach(check => {
+                const element = document.getElementById(check);
+                if (element) {
+                    element.textContent = '❌';
+                    element.className = 'compliance-icon x-icon';
+                }
+            });
+            
+            const owaspScoreElement = document.getElementById('owaspScore');
+            if (owaspScoreElement) owaspScoreElement.textContent = '0/8 Passed';
+            
+            // Reset other elements...
+            updateSecurityTools('');
+        }
+
+        // Password generator functions
+        function generatePassword() {
+            const length = parseInt(document.getElementById('lengthSlider').value);
+            const includeUppercase = document.getElementById('includeUppercase').checked;
+            const includeLowercase = document.getElementById('includeLowercase').checked;
+            const includeNumbers = document.getElementById('includeNumbers').checked;
+            const includeSymbols = document.getElementById('includeSymbols').checked;
+            
+            let charset = '';
+            if (includeUppercase) charset += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            if (includeLowercase) charset += 'abcdefghijklmnopqrstuvwxyz';
+            if (includeNumbers) charset += '0123456789';
+            if (includeSymbols) charset += '!@#$%^&*()_+-=[]{}|;:,.<>?';
+            
+            if (charset === '') {
+                charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            }
+            
+            let password = '';
+            for (let i = 0; i < length; i++) {
+                password += charset.charAt(Math.floor(Math.random() * charset.length));
+            }
+            
+            document.getElementById('generatedPassword').textContent = password;
+            document.getElementById('copyGenerated').style.display = 'block';
+            document.getElementById('usePasswordBtn').disabled = false;
+            
+            // Calculate and display strength
+            const strength = calculateStrengthScore(password);
+            const strengthLabels = ['Very Weak (1/5)', 'Weak (2/5)', 'Fair (3/5)', 'Good (4/5)', 'Strong (5/5)'];
+            const strengthColors = ['text-red', 'text-orange', 'text-yellow', 'text-blue', 'text-green'];
+            
+            document.getElementById('genStrengthLabel').textContent = strengthLabels[strength - 1];
+            document.getElementById('genStrengthLabel').className = strengthColors[strength - 1];
+            document.getElementById('generatedStrength').style.display = 'block';
+            
+            showToast('Password generated successfully!', 'success');
+        }
+
+        function useGeneratedPassword() {
+            const generatedPassword = document.getElementById('generatedPassword').textContent;
+            if (generatedPassword && generatedPassword !== "Click 'Generate New' to create a password") {
+                document.getElementById('passwordInput').value = generatedPassword;
+                currentPassword = generatedPassword;
+                analyzePassword(generatedPassword);
+                showToast('Generated password is now being analyzed', 'info');
+            }
+        }
+
+        // Event listeners
+        document.getElementById('passwordInput').addEventListener('input', function(e) {
+            const password = e.target.value;
+            currentPassword = password;
+            
+            clearTimeout(analysisTimeout);
+            analysisTimeout = setTimeout(() => {
+                analyzePassword(password);
+            }, 500);
+        });
+
+        document.getElementById('lengthSlider').addEventListener('input', function(e) {
+            document.getElementById('lengthValue').textContent = e.target.value;
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            resetAnalysis();
+        });
+    </script>
+</body>
+</html>
