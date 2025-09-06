@@ -20,6 +20,9 @@ View Demo https://reaishma.github.io/SecurePass-Analyzer-/
 - **Security Posture**: Overall risk assessment with actionable recommendations
 
 ### Advanced Security Features
+
+![threat intelligence](https://github.com/Reaishma/SecurePass-Analyzer-/blob/main/chrome_screenshot_Sep%205%2C%202025%201_44_12%20PM%20GMT%2B05_30.png)
+
 - **Threat Intelligence**: Simulated IBM X-Force and AlienVault integration
 - **Breach Database Matching**: Checks against known security breaches
 - **Common Password Detection**: Validates against top 10,000 passwords
