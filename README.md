@@ -173,6 +173,8 @@ GET /api/password/history
 
 ## Security Standards
 
+![Security standards](https://github.com/Reaishma/SecurePass-Analyzer-/blob/main/chrome_screenshot_Sep%205%2C%202025%201_48_01%20PM%20GMT%2B05_30.png)
+
 ### OWASP Compliance Checks
 The application implements the [OWASP (Open Web Application Security Project)](https://owasp.org/) password security guidelines as outlined in the OWASP Authentication Cheat Sheet and Application Security Verification Standard (ASVS).
 
