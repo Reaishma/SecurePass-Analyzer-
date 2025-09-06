@@ -3,6 +3,9 @@
 SecurePass Analyzer is a comprehensive password security analysis tool built with a modern full-stack architecture. The application provides real-time password strength analysis, security compliance checking, threat intelligence assessment, and cryptographic analysis. It features a clean, professional interface designed for security professionals and end users alike
 
 
+![secure pass](https://github.com/Reaishma/SecurePass-Analyzer-/blob/main/chrome_screenshot_Sep%205%2C%202025%201_38_16%20PM%20GMT%2B05_30.png)
+
+
 # 🚀 Live Demo 
 
 View Demo https://reaishma.github.io/SecurePass-Analyzer-/
