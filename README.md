@@ -208,6 +208,8 @@ The application follows [SANS Institute](https://www.sans.org/) cybersecurity be
 
 ## Cloud Security Integration
 
+![metasploit](https://github.com/Reaishma/SecurePass-Analyzer-/blob/main/chrome_screenshot_Sep%205%2C%202025%201_44_49%20PM%20GMT%2B05_30.png)
+
 ### Azure Security Center Compatible
 - Security posture management
 - Compliance reporting
