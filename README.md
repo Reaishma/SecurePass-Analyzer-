@@ -33,6 +33,9 @@ View Demo https://reaishma.github.io/SecurePass-Analyzer-/
 - **Crack Time Estimation**: Modern hardware attack simulations
 
 ### Password Generation
+
+![password generator](https://github.com/Reaishma/SecurePass-Analyzer-/blob/main/chrome_screenshot_Sep%205%2C%202025%201_43_37%20PM%20GMT%2B05_30.png)
+
 - **Secure Password Generator**: Cryptographically secure random generation
 - **Customizable Options**: Length, character sets, complexity
 - **Strength Validation**: Generated passwords automatically analyzed
